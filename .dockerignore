@@ -1,0 +1,14 @@
+.git
+.github
+.venv
+venv
+env
+__pycache__
+*.py[cod]
+*.log
+.env
+backend/.env
+.vscode
+.idea
+.DS_Store
+bazaro_work

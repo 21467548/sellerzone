@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SellerZone Admin Panel</title>
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-box">
+    <h1>🔐 Admin Panel</h1>
+    <p>Enter admin password to continue</p>
+    <input type="password" id="adminPassword" placeholder="Password">
+    <button id="adminLoginBtn">Login</button>
+    <div class="login-error" id="loginError"></div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="admin-app" id="adminApp" style="display:none;">
+  <aside class="sidebar">
+    <div class="sidebar-brand">🛍️ SellerZone</div>
+    <button class="side-item active" data-tab="dashboard">📊 Dashboard</button>
+    <button class="side-item" data-tab="users">👥 Users</button>
+    <button class="side-item" data-tab="products">📦 Products</button>
+    <button class="side-item" data-tab="withdrawals">💸 Withdrawals</button>
+    <button class="side-item" data-tab="deposits">💰 Deposits</button>
+    <button class="side-item" data-tab="buybacks">🔄 Buybacks</button>
+    <button class="side-item" data-tab="messages">💬 Messages</button>
+    <button class="side-item" data-tab="invite">🎁 Invite Codes</button>
+    <button class="side-item" data-tab="settings">⚙️ Settings</button>
+    <button class="side-item" id="adminLogout">🚪 Logout</button>
+  </aside>
+
+  <main class="main">
+    <section class="tab" id="tab-dashboard">
+      <h2>Dashboard</h2>
+      <div class="stats-grid" id="statsGrid"></div>
+    </section>
+
+    <section class="tab" id="tab-users" style="display:none;">
+      <h2>Users</h2>
+      <input class="search-box" id="userSearch" placeholder="Search by name, email or ID…">
+      <div id="usersList"></div>
+    </section>
+
+    <section class="tab" id="tab-products" style="display:none;">
+      <h2>Products</h2>
+      <div class="row">
+        <input class="search-box" id="prodSearch" placeholder="Search products…">
+        <button class="btn primary" id="addProductBtn">+ Add Product</button>
+      </div>
+      <div class="row">
+        <input class="search-box" id="priceSearch" placeholder="Search by exact amount (e.g. 20)">
+        <button class="btn" id="priceSearchBtn">Search by Price</button>
+      </div>
+      <div id="productsList"></div>
+    </section>
+
+    <section class="tab" id="tab-withdrawals" style="display:none;">
+      <h2>Withdrawals</h2>
+      <div class="tabs">
+        <button class="tab-btn active" data-wstatus="">All</button>
+        <button class="tab-btn" data-wstatus="pending">Pending</button>
+        <button class="tab-btn" data-wstatus="approved">Approved</button>
+        <button class="tab-btn" data-wstatus="rejected">Rejected</button>
+      </div>
+      <div id="withdrawalsList"></div>
+    </section>
+
+    <section class="tab" id="tab-deposits" style="display:none;">
+      <h2>Deposits</h2>
+      <div class="tabs">
+        <button class="tab-btn active" data-dstatus="">All</button>
+        <button class="tab-btn" data-dstatus="pending">Pending</button>
+        <button class="tab-btn" data-dstatus="approved">Approved</button>
+        <button class="tab-btn" data-dstatus="rejected">Rejected</button>
+      </div>
+      <div id="depositsList"></div>
+    </section>
+
+    <section class="tab" id="tab-buybacks" style="display:none;">
+      <h2>Buybacks</h2>
+      <div id="buybacksList"></div>
+    </section>
+
+    <section class="tab" id="tab-messages" style="display:none;">
+      <h2>Customer Messages</h2>
+      <div id="messagesList"></div>
+    </section>
+
+    <section class="tab" id="tab-invite" style="display:none;">
+      <h2>Invite Codes</h2>
+      <div class="row">
+        <input type="number" class="search-box" id="inviteCount" value="1" min="1" max="100">
+        <button class="btn primary" id="genInviteBtn">Generate Codes</button>
+      </div>
+      <div id="inviteList"></div>
+    </section>
+
+    <section class="tab" id="tab-settings" style="display:none;">
+      <h2>Settings</h2>
+      <div class="settings-box">
+        <div class="form-field"><label>PIX Key</label><input id="setPixKey"></div>
+        <div class="form-field"><label>PIX Name</label><input id="setPixName"></div>
+        <div class="form-field"><label>Invite Prefix</label><input id="setInvitePrefix"></div>
+        <button class="btn primary" id="saveSettings">Save Settings</button>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script src="js/admin.js?v=final-images-1"></script>
+</body>
+</html>

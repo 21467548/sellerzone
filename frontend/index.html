@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SellerZone — Online Shopping</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="phone">
+
+  <!-- ================= HOME ================= -->
+  <div class="screen active" id="screen-home">
+    <div class="app-header">
+      <div class="brand">
+        <svg class="brand-logo-svg" viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 60 70 L 60 55 Q 60 20 95 20 L 145 20 Q 180 20 180 55 L 180 70 L 200 70 Q 215 70 215 85 L 220 220 Q 220 240 200 240 L 40 240 Q 20 240 20 220 L 25 85 Q 25 70 40 70 Z" fill="#FFFFFF"/>
+          <path d="M 85 70 L 85 55 Q 85 35 105 35 L 135 35 Q 155 35 155 55 L 155 70 Z" fill="#EE4D2D"/>
+          <path d="M 120 90 Q 90 90 85 110 Q 82 125 100 130 L 130 138 Q 145 142 142 155 Q 138 168 115 168 Q 95 168 88 158 L 92 175 Q 105 185 125 185 Q 155 185 162 165 Q 168 145 148 138 L 118 130 Q 108 127 110 118 Q 113 108 130 108 Q 148 108 155 116 L 152 98 Q 138 90 120 90 Z" fill="#EE4D2D"/>
+        </svg>
+        <span class="brand-text">SellerZone</span>
+      </div>
+      <div class="lang-pill" id="langToggle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z"/></svg>
+        <span id="langLabel">English</span>
+      </div>
+      <div class="lang-dropdown" id="langDropdown">
+        <button data-lang="English" class="active">English</button>
+        <button data-lang="Português">Português</button>
+        <button data-lang="Türkçe">Türkçe</button>
+        <button data-lang="简体中文">简体中文</button>
+        <button data-lang="Français">Français</button>
+        <button data-lang="Español">Español</button>
+      </div>
+    </div>
+
+    <!-- HERO SLIDER -->
+    <div class="hero-slider" id="heroSlider">
+      <div class="hero-slide active">
+        <div class="hero-text">
+          <h1>L'ORÉAL</h1>
+          <p>YOUTH PASSWORD SERIES</p>
+        </div>
+        <div class="hero-art">
+          <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=500&q=80&auto=format&fit=crop" alt="L'Oreal">
+        </div>
+      </div>
+
+      <div class="hero-slide">
+        <div class="hero-text">
+          <h1>SMART WATCH</h1>
+          <p>SERIES 8 PRO</p>
+        </div>
+        <div class="hero-art">
+          <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=500&q=80&auto=format&fit=crop" alt="Watch">
+        </div>
+      </div>
+
+      <div class="hero-slide">
+        <div class="hero-text">
+          <h1>GOLD RING</h1>
+          <p>INDE YELLOW K55</p>
+        </div>
+        <div class="hero-art">
+          <img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=500&q=80&auto=format&fit=crop" alt="Ring">
+        </div>
+      </div>
+    </div>
+    <div class="hero-dots" id="heroDots">
+      <span class="active" data-slide="0"></span>
+      <span data-slide="1"></span>
+      <span data-slide="2"></span>
+    </div>
+
+    <div class="cat-row" id="catRow">
+      <button class="cat-item active" data-cat="all"><div class="cat-icon" data-icon="all"></div><span>All</span></button>
+      <button class="cat-item" data-cat="jewelry"><div class="cat-icon" data-icon="ring"></div><span>Jewelry</span></button>
+      <button class="cat-item" data-cat="watches"><div class="cat-icon" data-icon="watch"></div><span>Watch</span></button>
+      <button class="cat-item" data-cat="cosmetics"><div class="cat-icon" data-icon="cosmetic"></div><span>Cosmetics</span></button>
+      <button class="cat-item" data-cat="lingerie"><div class="cat-icon" data-icon="lingerie"></div><span>Lingerie</span></button>
+      <button class="cat-item" data-cat="electronics"><div class="cat-icon" data-icon="device"></div><span>Electronics</span></button>
+      <button class="cat-item" data-cat="home"><div class="cat-icon" data-icon="home"></div><span>Home</span></button>
+    </div>
+
+    <div class="section-title">Daily pick</div>
+    <div class="p-grid" id="productGrid"><div class="loading-note">Loading products…</div></div>
+    <button class="more-btn" id="moreBtn">More</button>
+  </div>
+
+  <!-- GOODS LIST -->
+  <div class="screen" id="screen-goods">
+    <div class="screen-header">
+      <button class="back-btn" data-back="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <h2>GOODS LIST</h2>
+    </div>
+    <div class="p-grid" id="goodsGrid" style="padding-top:14px;"></div>
+  </div>
+
+  <!-- PRODUCT DETAIL -->
+  <div class="screen" id="screen-product">
+    <div class="screen-header">
+      <button class="back-btn" data-back="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <h2>Detalhes do Produto</h2>
+    </div>
+    <div id="productDetail"></div>
+  </div>
+
+  <!-- CART -->
+  <div class="screen" id="screen-cart">
+    <div class="screen-header">
+      <button class="back-btn" data-back="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <h2>Carrinho</h2>
+    </div>
+    <div class="cart-items" id="cartItemsFull" style="padding:14px;max-height:none;"></div>
+    <div style="padding:0 14px;">
+      <div class="sheet-row total"><span>Subtotal</span><span id="cartSubtotal">R$ 0.00</span></div>
+      <button class="share-btn" style="margin-top:14px;" id="goCheckoutBtn">Submit</button>
+      <button class="continue-btn" data-back="home">Continue shopping ›</button>
+    </div>
+  </div>
+
+  <!-- ORDERS -->
+  <div class="screen" id="screen-orders">
+    <div class="screen-header">
+      <button class="back-btn" data-back="account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <h2>Ordem</h2>
+    </div>
+    <div class="order-tabs" id="orderTabs">
+      <button class="active" data-status="all">Todos</button>
+      <button data-status="placed">Pendente</button>
+      <button data-status="completed">Terminar</button>
+      <button data-status="buyback">Recomprado</button>
+      <button data-status="cancelled">Cancelar</button>
+    </div>
+    <div class="orders-list" id="ordersList"><div class="loading-note">Loading…</div></div>
+  </div>
+
+  <!-- ACCOUNT -->
+  <div class="screen" id="screen-account">
+    <div class="screen-header">
+      <button class="back-btn" data-back="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <h2>Me</h2>
+      <button class="menu-btn" id="menuBtn">☰</button>
+    </div>
+    <div class="me-header">
+      <div class="me-avatar">🛍️</div>
+      <div class="me-info">
+        <div class="me-name" id="meName">Not signed in</div>
+        <div class="me-balance">Balance: <span id="meBalance">R$ 0.00</span></div>
+        <div class="me-points">Points: <span id="mePoints">0</span></div>
+      </div>
+    </div>
+    <div class="me-quick">
+      <button class="quick-item" id="quickRecharge"><div class="quick-icon">💰</div><span>Recharge</span></button>
+      <button class="quick-item" id="quickWithdraw"><div class="quick-icon">💸</div><span>Withdraw</span></button>
+      <button class="quick-item" id="quickAddress"><div class="quick-icon">📍</div><span>Shipping address</span></button>
+    </div>
+    <div class="me-list">
+      <button class="me-item" id="meOrders"><span>📋</span> My orders <em>›</em></button>
+      <button class="me-item" id="meWithdrawRecord"><span>📄</span> Withdraw record <em>›</em></button>
+      <button class="me-item" id="meRechargeRecord"><span>📄</span> Recharge record <em>›</em></button>
+      <button class="me-item" id="meAccountChange"><span>📄</span> Account change record <em>›</em></button>
+      <button class="me-item" id="meInvite"><span>🎁</span> Invite a friend <em>›</em></button>
+      <button class="me-item" id="meService"><span>💬</span> My service <em>›</em></button>
+      <button class="me-item" id="meHelp"><span>💬</span> Help center <em>›</em></button>
+    </div>
+  </div>
+
+  <!-- RECHARGE -->
+  <div class="screen" id="screen-recharge">
+    <div class="screen-header">
+      <button class="back-btn" data-back="account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <h2>Carregar saldo</h2>
+    </div>
+    <div class="invite-body">
+      <div class="balance-box">
+        <div class="balance-label">Balance</div>
+        <div class="balance-value" id="rechargeBalance">R$ 0.00</div>
+      </div>
+      <div class="section-label">PIX/CPF</div>
+      <div class="copy-row">
+        <div>
+          <div class="copy-label">Contact online customer service</div>
+          <div class="copy-sub">Name</div>
+          <div class="copy-value" id="pixName">SellerZone Store</div>
+        </div>
+        <button class="copy-btn" data-copy="pixName">Copy</button>
+      </div>
+      <div class="copy-row">
+        <div>
+          <div class="copy-label">Contact online customer service</div>
+          <div class="copy-sub">MB WAY or IBAN</div>
+          <div class="copy-value" id="pixKey">sellerzone@pix.com</div>
+        </div>
+        <button class="copy-btn" data-copy="pixKey">Copy</button>
+      </div>
+      <div class="section-label">Receipt</div>
+      <div class="form-field"><label>Quantity</label><input type="number" id="depositAmount" placeholder="Payment quantity"></div>
+      <div class="form-field"><label>PIX/CPF</label><input type="text" id="depositPix" placeholder="Please enter MB WAY or IBAN"></div>
+      <div class="section-label">Photograph</div>
+      <div class="upload-box" id="uploadBox">
+        <span style="font-size:32px;color:#999;">+</span>
+        <input type="file" id="receiptInput" accept="image/*" hidden>
+      </div>
+      <button class="share-btn" id="submitDeposit" style="margin-top:20px;">Confirm</button>
+    </div>
+  </div>
+
+  <!-- WITHDRAW -->
+  <div class="screen" id="screen-withdraw">
+    <div class="screen-header">
+      <button class="back-btn" data-back="account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <h2>LEVANTAMENTO</h2>
+    </div>
+    <div class="invite-body">
+      <div class="form-field"><label>Name</label><input type="text" id="wName" placeholder="Please enter a name"></div>
+      <div class="form-field"><label>PIX key or email address</label><input type="text" id="wPix" placeholder="Please enter the PIX key or email address"></div>
+      <div class="form-field"><label>MB WAY or IBAN</label><input type="text" id="wIban" placeholder="Please enter MB WAY or IBAN"></div>
+      <div class="form-field"><label>Quantity</label><input type="number" id="wAmount" placeholder="Please enter the withdrawal quantity"></div>
+      <div class="form-field"><label>Pay password</label><input type="password" id="wPassword" placeholder="Please input your pay password"></div>
+      <div class="balance-line"><span>Balance</span><span id="wBalance">R$ 0.00</span></div>
+      <div class="balance-line"><span>Service charge</span><span>R$ 5</span></div>
+      <div class="withdraw-note">
+        <div>Note:</div>
+        <div>1. Withdraw 1+1 to...</div>
+        <div>2. Minimum withdrawal...</div>
+        <div>3. To personal account...</div>
+      </div>
+      <button class="share-btn" id="submitWithdraw" style="margin-top:20px;">Submit</button>
+    </div>
+  </div>
+
+  <!-- ADDRESSES -->
+  <div class="screen" id="screen-addresses">
+    <div class="screen-header">
+      <button class="back-btn" data-back="account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <h2>EDIT ADDRESS</h2>
+    </div>
+    <div class="invite-body">
+      <div class="form-field"><label>First name</label><input type="text" id="addrFirst"></div>
+      <div class="form-field"><label>Last name</label><input type="text" id="addrLast"></div>
+      <div class="form-field"><label>City</label><input type="text" id="addrCity"></div>
+      <div class="form-field"><label>Address</label><input type="text" id="addrAddress"></div>
+      <div class="form-field"><label>Zip code</label><input type="text" id="addrZip"></div>
+      <div class="form-field"><label>Phone</label><input type="text" id="addrPhone"></div>
+      <button class="share-btn" id="saveAddress" style="margin-top:20px;">Submit</button>
+    </div>
+  </div>
+
+  <!-- INVITE -->
+  <div class="screen" id="screen-invite">
+    <div class="screen-header">
+      <button class="back-btn" data-back="account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <h2>Link de Convite</h2>
+    </div>
+    <div class="invite-body">
+      <p class="desc">Share your invitation QR code or copy your invitation code and link it to send to your friends.</p>
+      <div class="invite-label">Invitation QR code</div>
+      <div class="qr-box">
+        <canvas id="qrCanvas" width="180" height="180"></canvas>
+        <div class="qr-hint">Long press the picture to save</div>
+      </div>
+      <div class="invite-label">Invite code</div>
+      <div class="invite-code-row">
+        <span class="code" id="inviteCode">BZR-XXXXX</span>
+        <button id="copyCodeBtn">Copy</button>
+      </div>
+      <div class="invite-label">Invite link</div>
+      <div class="invite-code-row">
+        <span class="code" id="inviteLink" style="font-size:11px;">/invite</span>
+        <button id="copyLinkBtn">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHY CHOOSE US -->
+  <div class="screen" id="screen-whyus">
+    <div class="screen-header">
+      <button class="back-btn" data-back="account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <h2>Why choose us</h2>
+    </div>
+    <div class="wc-list">
+      <div class="wc-block"><div class="wc-head">👑 Our advantage</div><p>Own factory (300+ workers and 4 offices)</p><p>More than 8,000 SKU &amp; 2,000,000 PCS</p></div>
+      <div class="wc-block"><div class="wc-head">📋 Order service</div><p>1–2 Working days processing</p><p>Package location tracking online</p><p>Fast shipping to over 200 countries</p></div>
+      <div class="wc-block"><div class="wc-head">🛡️ Security payment</div><p>Pay online by PayPal, credit card</p><p>Don't keep any card's information</p></div>
+      <div class="wc-block"><div class="wc-head">✅ Buyer protection</div><p>Full refund if you don't receive your order</p><p>Partial refund if you pay more shipping cost</p></div>
+    </div>
+  </div>
+
+  <!-- SERVICE -->
+  <div class="screen" id="screen-service">
+    <div class="screen-header">
+      <button class="back-btn" data-back="account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <h2>My service</h2>
+    </div>
+    <div class="invite-body">
+      <div id="messagesList"></div>
+      <div class="form-field" style="margin-top:16px;">
+        <label>Send a message</label>
+        <input type="text" id="messageText" placeholder="Type your message...">
+      </div>
+      <button class="share-btn" id="sendMessage">Send</button>
+    </div>
+  </div>
+
+  <!-- LOGIN -->
+  <div class="screen" id="screen-login">
+    <div class="auth-screen">
+      <div class="auth-logo">
+        <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" style="width:80px;height:80px;margin-bottom:14px;">
+          <path d="M 60 70 L 60 55 Q 60 20 95 20 L 145 20 Q 180 20 180 55 L 180 70 L 200 70 Q 215 70 215 85 L 220 220 Q 220 240 200 240 L 40 240 Q 20 240 20 220 L 25 85 Q 25 70 40 70 Z" fill="#EE4D2D"/>
+          <path d="M 85 70 L 85 55 Q 85 35 105 35 L 135 35 Q 155 35 155 55 L 155 70 Z" fill="#FFFFFF"/>
+          <path d="M 120 90 Q 90 90 85 110 Q 82 125 100 130 L 130 138 Q 145 142 142 155 Q 138 168 115 168 Q 95 168 88 158 L 92 175 Q 105 185 125 185 Q 155 185 162 165 Q 168 145 148 138 L 118 130 Q 108 127 110 118 Q 113 108 130 108 Q 148 108 155 116 L 152 98 Q 138 90 120 90 Z" fill="#FFFFFF"/>
+        </svg>
+      </div>
+      <h2>Sign In</h2>
+      <div class="auth-switch-line">or <button id="goSignup">Sign Up</button></div>
+      <form id="loginForm">
+        <div class="form-field"><label>Email</label><input type="email" id="loginEmail" required></div>
+        <div class="form-field"><label>Password</label><input type="password" id="loginPassword" required></div>
+        <button type="submit" class="share-btn">Login</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- SIGNUP -->
+  <div class="screen" id="screen-signup">
+    <div class="auth-screen">
+      <div class="auth-logo">
+        <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" style="width:80px;height:80px;margin-bottom:14px;">
+          <path d="M 60 70 L 60 55 Q 60 20 95 20 L 145 20 Q 180 20 180 55 L 180 70 L 200 70 Q 215 70 215 85 L 220 220 Q 220 240 200 240 L 40 240 Q 20 240 20 220 L 25 85 Q 25 70 40 70 Z" fill="#EE4D2D"/>
+          <path d="M 85 70 L 85 55 Q 85 35 105 35 L 135 35 Q 155 35 155 55 L 155 70 Z" fill="#FFFFFF"/>
+          <path d="M 120 90 Q 90 90 85 110 Q 82 125 100 130 L 130 138 Q 145 142 142 155 Q 138 168 115 168 Q 95 168 88 158 L 92 175 Q 105 185 125 185 Q 155 185 162 165 Q 168 145 148 138 L 118 130 Q 108 127 110 118 Q 113 108 130 108 Q 148 108 155 116 L 152 98 Q 138 90 120 90 Z" fill="#FFFFFF"/>
+        </svg>
+      </div>
+      <h2>Sign Up</h2>
+      <div class="auth-switch-line">or <button id="goSignin">Sign In</button></div>
+      <form id="signupForm">
+        <div class="form-field"><label>Name</label><input type="text" id="signupName" required></div>
+        <div class="form-field"><label>Email</label><input type="email" id="signupEmail" required></div>
+        <div class="form-field"><label>Password</label><input type="password" id="signupPassword" required minlength="6"></div>
+        <div class="form-field"><label>Password again</label><input type="password" id="signupPassword2" required minlength="6"></div>
+        <div class="form-field"><label>Invite code (optional)</label><input type="text" id="signupInvite"></div>
+        <button type="submit" class="share-btn">Sign Up</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Bottom nav -->
+  <div class="bottom-nav" id="bottomNav">
+    <button class="nav-btn active" data-screen="home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
+      <span>Home</span>
+    </button>
+    <button class="nav-btn" data-screen="orders">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11V6a3 3 0 0 1 6 0v5"/><rect x="4" y="8" width="16" height="12" rx="2"/></svg>
+      <span>Orders</span>
+    </button>
+    <button class="nav-btn" data-screen="cart">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="20" r="1.4" fill="currentColor"/><circle cx="18" cy="20" r="1.4" fill="currentColor"/><path d="M2 3h3l2.4 12.2a2 2 0 0 0 2 1.6h8.2a2 2 0 0 0 2-1.6L21 7H6"/></svg>
+      <span>Cart</span>
+      <span class="nav-badge" id="navCartBadge" style="display:none;">0</span>
+    </button>
+    <button class="nav-btn" data-screen="account">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>
+      <span>Account</span>
+    </button>
+  </div>
+
+  <!-- Drawer -->
+  <div class="drawer-overlay" id="drawerOverlay">
+    <div class="drawer">
+      <button class="drawer-close" id="drawerClose">✕</button>
+      <button class="drawer-item" id="drawerWallet">💳 Wallet address <em>›</em></button>
+      <button class="drawer-item" id="drawerShipping">📍 My shipping address <em>›</em></button>
+      <button class="drawer-item" id="drawerId">🆔 ID verification <em>›</em></button>
+      <button class="drawer-item" id="drawerCancel">ℹ️ Account Cancellation <em>›</em></button>
+      <button class="drawer-item" id="drawerLogout">🚪 Logout <em>›</em></button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  window.API_BASE = '/api';
+</script>
+<script src="js/script.js?v=final-images-1"></script>
+</body>
+</html>
