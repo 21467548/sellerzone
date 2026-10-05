@@ -7,7 +7,7 @@ cart_bp = Blueprint("cart", __name__)
 
 def cart_with_details(user_id):
     items = []
-    cart_items = db_client.table("cart_items").select("*").eq("user_id", user_id).order("id").execute().data
+    cart_items = db_client.table("cart_items").select("*").eq("user_id", user_id).order("product_id").execute().data
     for cart_item in cart_items:
         products = db_client.table("products").select("*").eq("id", cart_item["product_id"]).execute().data
         if products:
@@ -16,7 +16,7 @@ def cart_with_details(user_id):
                 "productId": p["id"],
                 "name": p["name"],
                 "price": p["price"],
-                "qty": cart_item["qty"],
+                "qty": cart_item["quantity"],
                 "iconKey": p.get("icon_key", "all"),
                 "image": p.get("image", ""),
             })
@@ -41,11 +41,11 @@ def add_to_cart():
     if not db_client.table("products").select("id").eq("id", product_id).eq("active", True).execute().data:
         return jsonify({"error": "Product not found"}), 404
 
-    existing = db_client.table("cart_items").select("id, qty").eq("user_id", request.user_id).eq("product_id", product_id).execute().data
+    existing = db_client.table("cart_items").select("quantity").eq("user_id", request.user_id).eq("product_id", product_id).execute().data
     if existing:
-        db_client.table("cart_items").update({"qty": existing[0]["qty"] + qty}).eq("id", existing[0]["id"]).execute()
+        db_client.table("cart_items").update({"quantity": existing[0]["quantity"] + qty}).eq("user_id", request.user_id).eq("product_id", product_id).execute()
     else:
-        db_client.table("cart_items").insert({"user_id": request.user_id, "product_id": product_id, "qty": qty}).execute()
+        db_client.table("cart_items").insert({"user_id": request.user_id, "product_id": product_id, "quantity": qty}).execute()
 
     return jsonify(cart_with_details(request.user_id))
 

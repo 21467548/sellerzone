@@ -33,9 +33,9 @@ def create_order():
             "product_id": p["id"],
             "name": p["name"],
             "price": p["price"],
-            "qty": cart_item["qty"],
+            "qty": cart_item["quantity"],
         })
-        total += p["price"] * cart_item["qty"]
+        total += p["price"] * cart_item["quantity"]
 
     profile_result = db_client.table("profiles").select("*").eq("id", request.user_id).single().execute()
     user = profile_result.data
@@ -48,11 +48,7 @@ def create_order():
         "items": order_items,
         "total": total,
         "status": "placed",
-        "name": body.get("name", ""),
-        "email": body.get("email", ""),
         "address": body.get("address", ""),
-        "city": body.get("city", ""),
-        "postal": body.get("postal", ""),
     }
     db_client.table("profiles").update({"balance": float(user["balance"]) - total}).eq("id", request.user_id).execute()
     saved = db_client.table("orders").insert(order).execute().data[0]
