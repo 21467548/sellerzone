@@ -12,5 +12,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY backend ./backend
 COPY frontend ./frontend
 COPY README.md ./README.md
+COPY start.py ./start.py
 
 CMD ["python", "start.py"]
