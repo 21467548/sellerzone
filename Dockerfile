@@ -13,4 +13,4 @@ COPY backend ./backend
 COPY frontend ./frontend
 COPY README.md ./README.md
 
-CMD ["sh", "-c", "exec gunicorn --chdir backend app:app --bind 0.0.0.0:${PORT:-5000} --workers 2 --timeout 120"]
+CMD ["python", "start.py"]
