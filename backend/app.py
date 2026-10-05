@@ -5,7 +5,7 @@ import urllib.request
 import urllib.parse
 
 from config import Config
-from models import ensure_settings
+from supabase_client import db_client, ensure_settings
 from routes.auth import auth_bp
 from routes.products import products_bp
 from routes.cart import cart_bp
@@ -14,7 +14,7 @@ from routes.wallet import wallet_bp
 from routes.messages import messages_bp
 from routes.buyback import buyback_bp
 from routes.invite import invite_bp
-from routes.admin import admin_bp
+from routes.admin_supabase import admin_bp
 
 FRONTEND_DIR = os.path.join(os.path.dirname(__file__), "..", "frontend")
 
@@ -36,11 +36,12 @@ app.register_blueprint(admin_bp, url_prefix="/api/admin")
 
 @app.route("/api/settings", methods=["GET"])
 def public_settings():
-    ensure_settings()
-    from models import settings_col
-    s = settings_col.find_one({"_id": "global"}) or {}
-    s.pop("_id", None)
-    return jsonify(s)
+    setting = db_client.table("settings").select("*").eq("id", 1).single().execute().data
+    return jsonify({
+        "pixKey": setting["pix_key"],
+        "pixName": setting["pix_name"],
+        "invitePrefix": setting["invite_prefix"],
+    })
 
 
 

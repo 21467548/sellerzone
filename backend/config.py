@@ -1,12 +1,13 @@
 import os
+from pathlib import Path
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(Path(__file__).with_name(".env"))
 
 class Config:
-    MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017/")
-    DB_NAME = os.getenv("DB_NAME", "sellerzone")
-    JWT_SECRET = os.getenv("JWT_SECRET", "dev-only-change-this-jwt-secret")
+    SUPABASE_URL = os.getenv("SUPABASE_URL", "")
+    SUPABASE_PUBLISHABLE_KEY = os.getenv("SUPABASE_PUBLISHABLE_KEY", "")
+    SUPABASE_SERVICE_ROLE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY", "")
+    SUPABASE_STORAGE_BUCKET = os.getenv("SUPABASE_STORAGE_BUCKET", "product-images")
     ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "admin123")
-    ADMIN_SECRET = os.getenv("ADMIN_SECRET", "dev-only-change-this-admin-secret")
-    JWT_EXP_DAYS = 7
+    ADMIN_SECRET = os.getenv("ADMIN_SECRET", "bazaro-admin-secret-change-me")

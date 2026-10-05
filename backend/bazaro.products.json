@@ -1,0 +1,164 @@
+[{
+  "_id": {
+    "$oid": "6abcf1579a3089d1598ec2be"
+  },
+  "name": "Logitech Webcam Brio 101 Full HD 1080p Auto Focus",
+  "price": 34.99,
+  "category": "electronics",
+  "icon_key": "webcam",
+  "tag": "Hot",
+  "image": "https://images.unsplash.com/photo-1611174743420-3d7df880ce32?w=600&q=80&auto=format&fit=crop",
+  "description": "Full HD 1080p webcam with auto-light correction, dual mics and privacy shutter.",
+  "id": 1
+},
+{
+  "_id": {
+    "$oid": "6abcf1579a3089d1598ec2bf"
+  },
+  "name": "TOMI Ring, Inde Yellow Gold K55 (B324952)",
+  "price": 1620,
+  "category": "jewelry",
+  "icon_key": "ring",
+  "tag": "New",
+  "image": "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=600&q=80&auto=format&fit=crop",
+  "description": "18K yellow gold ring with natural accent stones.",
+  "id": 2
+},
+{
+  "_id": {
+    "$oid": "6abcf1579a3089d1598ec2c0"
+  },
+  "name": "L'ORÉAL Youth Password Serum",
+  "price": 89.9,
+  "category": "cosmetics",
+  "icon_key": "cosmetic_serum",
+  "tag": "New",
+  "image": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&q=80&auto=format&fit=crop",
+  "description": "Anti-aging serum with hyaluronic acid and vitamin C.",
+  "id": 3
+},
+{
+  "_id": {
+    "$oid": "6abcf1579a3089d1598ec2c1"
+  },
+  "name": "Smart Watch Series 8 Pro",
+  "price": 399,
+  "category": "watches",
+  "icon_key": "watch_smart",
+  "tag": "Hot",
+  "image": "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=600&q=80&auto=format&fit=crop",
+  "description": "AMOLED display, heart-rate monitor, GPS and 7-day battery life.",
+  "id": 4
+},
+{
+  "_id": {
+    "$oid": "6abcf1579a3089d1598ec2c2"
+  },
+  "name": "Classic Leather Watch Brown",
+  "price": 249,
+  "category": "watches",
+  "icon_key": "watch_leather",
+  "tag": "Sale",
+  "image": "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=600&q=80&auto=format&fit=crop",
+  "description": "Timeless brown leather strap watch.",
+  "id": 5
+},
+{
+  "_id": {
+    "$oid": "6abcf1579a3089d1598ec2c3"
+  },
+  "name": "Cadeira de rodas de transporte leve e dobrável",
+  "price": 1220,
+  "category": "home",
+  "icon_key": "travelbed",
+  "image": "https://images.unsplash.com/photo-1587293852726-70cdb56c2866?w=600&q=80&auto=format&fit=crop",
+  "description": "Lightweight foldable transport wheelchair.",
+  "id": 6
+},
+{
+  "_id": {
+    "$oid": "6abcf1579a3089d1598ec2c4"
+  },
+  "name": "Android 13.0 Radio for Toyota Etios 2010-2019",
+  "price": 3280,
+  "category": "electronics",
+  "icon_key": "device_cat",
+  "image": "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=600&q=80&auto=format&fit=crop",
+  "description": "13.0 inch IPS Touch Screen Stereo with Bluetooth 5.0, Carplay, Android Auto GPS.",
+  "id": 7
+},
+{
+  "_id": {
+    "$oid": "6abcf1579a3089d1598ec2c5"
+  },
+  "name": "Oura Ring 5 Smart Ring Monitor",
+  "price": 3300,
+  "category": "jewelry",
+  "icon_key": "ring",
+  "image": "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=600&q=80&auto=format&fit=crop",
+  "description": "Smart ring monitor with sleep tracking and health insights.",
+  "id": 8
+},
+{
+  "_id": {
+    "$oid": "6abcf1579a3089d1598ec2c6"
+  },
+  "name": "Brown Tweezers BT Skin Powder Matte Loose",
+  "price": 137,
+  "category": "cosmetics",
+  "icon_key": "cosmetic_cream",
+  "image": "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&q=80&auto=format&fit=crop",
+  "description": "Matte loose powder for oily and combination skin.",
+  "id": 9
+},
+{
+  "_id": {
+    "$oid": "6abcf1579a3089d1598ec2c7"
+  },
+  "name": "La Mer The Concentrate (50ml)",
+  "price": 25,
+  "category": "cosmetics",
+  "icon_key": "cosmetic_serum",
+  "image": "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&q=80&auto=format&fit=crop",
+  "description": "Soothing concentrate for sensitive skin.",
+  "id": 10
+},
+{
+  "_id": {
+    "$oid": "6abcf1579a3089d1598ec2c8"
+  },
+  "name": "Hiccapop Inflatable Toddler Travel Bed",
+  "price": 60,
+  "category": "home",
+  "icon_key": "travelbed",
+  "tag": "Hot",
+  "image": "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80&auto=format&fit=crop",
+  "description": "Portable toddler bed for travel, camping and vacation.",
+  "id": 11
+},
+{
+  "_id": {
+    "$oid": "6abd3a4df22937fc54e3ce04"
+  },
+  "id": 14,
+  "name": "car",
+  "price": 56,
+  "category": "jewelry",
+  "image": "",
+  "description": "",
+  "tag": "",
+  "icon_key": "all"
+},
+{
+  "_id": {
+    "$oid": "6abd3a7cf22937fc54e3ce05"
+  },
+  "id": 15,
+  "name": "ring",
+  "price": 36,
+  "category": "jewelry",
+  "image": "data:image/jpeg;base64,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",
+  "description": "make it yours",
+  "tag": "",
+  "icon_key": "all"
+}]

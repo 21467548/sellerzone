@@ -1,21 +1,22 @@
 from flask import Blueprint, request, jsonify
-from models import carts_col, products_col
+from supabase_client import db_client
 from utils import auth_required
 
 cart_bp = Blueprint("cart", __name__)
 
 
 def cart_with_details(user_id):
-    cart = carts_col.find_one({"userId": user_id}) or {"userId": user_id, "items": []}
     items = []
-    for ci in cart.get("items", []):
-        p = products_col.find_one({"id": ci["productId"]})
-        if p:
+    cart_items = db_client.table("cart_items").select("*").eq("user_id", user_id).order("id").execute().data
+    for cart_item in cart_items:
+        products = db_client.table("products").select("*").eq("id", cart_item["product_id"]).execute().data
+        if products:
+            p = products[0]
             items.append({
                 "productId": p["id"],
                 "name": p["name"],
                 "price": p["price"],
-                "qty": ci["qty"],
+                "qty": cart_item["qty"],
                 "iconKey": p.get("icon_key", "all"),
                 "image": p.get("image", ""),
             })
@@ -32,27 +33,19 @@ def get_cart():
 @auth_required
 def add_to_cart():
     data = request.get_json() or {}
-    product_id = data.get("productId")
+    product_id = data.get("productId", data.get("product_id"))
     qty = int(data.get("qty", 1))
+    if not product_id or qty <= 0:
+        return jsonify({"error": "Product and quantity required"}), 400
 
-    p = products_col.find_one({"id": product_id})
-    if not p:
+    if not db_client.table("products").select("id").eq("id", product_id).eq("active", True).execute().data:
         return jsonify({"error": "Product not found"}), 404
 
-    cart = carts_col.find_one({"userId": request.user_id})
-    if not cart:
-        carts_col.insert_one({"userId": request.user_id, "items": [{"productId": product_id, "qty": qty}]})
+    existing = db_client.table("cart_items").select("id, qty").eq("user_id", request.user_id).eq("product_id", product_id).execute().data
+    if existing:
+        db_client.table("cart_items").update({"qty": existing[0]["qty"] + qty}).eq("id", existing[0]["id"]).execute()
     else:
-        items = cart.get("items", [])
-        found = False
-        for it in items:
-            if it["productId"] == product_id:
-                it["qty"] += qty
-                found = True
-                break
-        if not found:
-            items.append({"productId": product_id, "qty": qty})
-        carts_col.update_one({"userId": request.user_id}, {"$set": {"items": items}})
+        db_client.table("cart_items").insert({"user_id": request.user_id, "product_id": product_id, "qty": qty}).execute()
 
     return jsonify(cart_with_details(request.user_id))
 
@@ -60,8 +53,5 @@ def add_to_cart():
 @cart_bp.route("/<int:pid>", methods=["DELETE"])
 @auth_required
 def remove_from_cart(pid):
-    cart = carts_col.find_one({"userId": request.user_id})
-    if cart:
-        items = [i for i in cart.get("items", []) if i["productId"] != pid]
-        carts_col.update_one({"userId": request.user_id}, {"$set": {"items": items}})
+    db_client.table("cart_items").delete().eq("user_id", request.user_id).eq("product_id", pid).execute()
     return jsonify(cart_with_details(request.user_id))

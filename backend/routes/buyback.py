@@ -1,6 +1,5 @@
-from datetime import datetime
 from flask import Blueprint, request, jsonify
-from models import buybacks_col, products_col, users_col, next_id
+from supabase_client import db_client
 from utils import auth_required
 
 buyback_bp = Blueprint("buyback", __name__)
@@ -12,31 +11,30 @@ def request_buyback():
     data = request.get_json() or {}
     product_id = data.get("productId")
     qty = int(data.get("qty", 1))
-    p = products_col.find_one({"id": product_id})
-    if not p:
+    products = db_client.table("products").select("*").eq("id", product_id).eq("active", True).execute().data
+    if not products:
         return jsonify({"error": "Product not found"}), 404
-    user = users_col.find_one({"id": request.user_id})
+    p = products[0]
     price = round(p["price"] * 0.8, 2)
     b = {
-        "id": next_id("buybacks"),
-        "userId": request.user_id,
-        "userName": user["name"],
-        "productId": product_id,
-        "productName": p["name"],
+        "user_id": request.user_id,
+        "product_id": product_id,
         "qty": qty,
         "price": price,
         "status": "pending",
-        "created_at": datetime.utcnow().isoformat(),
     }
-    buybacks_col.insert_one(b)
-    b.pop("_id", None)
+    b = db_client.table("buybacks").insert(b).execute().data[0]
+    b["userId"] = b.pop("user_id")
+    b["productId"] = b.pop("product_id")
+    b["productName"] = p["name"]
     return jsonify({"buyback": b})
 
 
 @buyback_bp.route("", methods=["GET"])
 @auth_required
 def list_buybacks():
-    items = list(buybacks_col.find({"userId": request.user_id}))
-    for x in items:
-        x.pop("_id", None)
+    items = db_client.table("buybacks").select("*").eq("user_id", request.user_id).order("id", desc=True).execute().data
+    for item in items:
+        item["userId"] = item.pop("user_id")
+        item["productId"] = item.pop("product_id")
     return jsonify({"buybacks": items})

@@ -431,6 +431,9 @@ document.getElementById('signupForm')?.addEventListener('submit', async (e) => {
       inviteCode: document.getElementById('signupInvite').value || null,
     };
     const data = await api('/auth/register', { method: 'POST', body });
+    if (data.requiresConfirmation || !data.token) {
+      return alert(data.message || 'Check your email to confirm your account, then sign in.');
+    }
     setSession(data.token, data.user);
     await afterLogin();
     showScreen('account');

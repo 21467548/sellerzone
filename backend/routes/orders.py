@@ -1,6 +1,5 @@
-from datetime import datetime
 from flask import Blueprint, request, jsonify
-from models import orders_col, carts_col, products_col, users_col, next_id
+from supabase_client import db_client
 from utils import auth_required
 
 orders_bp = Blueprint("orders", __name__)
@@ -9,57 +8,56 @@ orders_bp = Blueprint("orders", __name__)
 @orders_bp.route("", methods=["GET"])
 @auth_required
 def list_orders():
-    items = list(orders_col.find({"userId": request.user_id}).sort("id", -1))
-    for o in items:
-        o.pop("_id", None)
+    items = db_client.table("orders").select("*").eq("user_id", request.user_id).order("id", desc=True).execute().data
+    for order in items:
+        order["userId"] = order.pop("user_id")
+        order["created_at"] = order.get("created_at")
     return jsonify({"orders": items})
 
 
 @orders_bp.route("", methods=["POST"])
 @auth_required
 def create_order():
-    cart = carts_col.find_one({"userId": request.user_id}) or {"items": []}
-    if not cart.get("items"):
+    cart_items = db_client.table("cart_items").select("*").eq("user_id", request.user_id).execute().data
+    if not cart_items:
         return jsonify({"error": "Cart is empty"}), 400
 
     order_items = []
     total = 0
-    for ci in cart["items"]:
-        p = products_col.find_one({"id": ci["productId"]})
-        if not p:
+    for cart_item in cart_items:
+        products = db_client.table("products").select("*").eq("id", cart_item["product_id"]).execute().data
+        if not products:
             continue
+        p = products[0]
         order_items.append({
             "product_id": p["id"],
             "name": p["name"],
             "price": p["price"],
-            "qty": ci["qty"],
+            "qty": cart_item["qty"],
         })
-        total += p["price"] * ci["qty"]
+        total += p["price"] * cart_item["qty"]
 
-    user = users_col.find_one({"id": request.user_id})
-    if user.get("balance", 0) < total:
+    profile_result = db_client.table("profiles").select("*").eq("id", request.user_id).single().execute()
+    user = profile_result.data
+    if float(user.get("balance", 0)) < total:
         return jsonify({"error": "Insufficient balance"}), 400
-
-    users_col.update_one({"id": request.user_id}, {"$inc": {"balance": -total}})
 
     body = request.get_json() or {}
     order = {
-        "id": next_id("orders"),
-        "userId": request.user_id,
+        "user_id": request.user_id,
         "items": order_items,
         "total": total,
         "status": "placed",
-        "created_at": datetime.utcnow().isoformat(),
         "name": body.get("name", ""),
         "email": body.get("email", ""),
         "address": body.get("address", ""),
         "city": body.get("city", ""),
         "postal": body.get("postal", ""),
     }
-    orders_col.insert_one(order)
-    carts_col.update_one({"userId": request.user_id}, {"$set": {"items": []}})
-
-    order.pop("_id", None)
+    db_client.table("profiles").update({"balance": float(user["balance"]) - total}).eq("id", request.user_id).execute()
+    saved = db_client.table("orders").insert(order).execute().data[0]
+    db_client.table("cart_items").delete().eq("user_id", request.user_id).execute()
+    saved["userId"] = saved.pop("user_id")
     from routes.auth import public_user
-    user = users_col.find_one({"id": request.user_id})
-    return jsonify({"order": order, "user": public_user(user)})
+    updated_user = db_client.table("profiles").select("*").eq("id", request.user_id).single().execute().data
+    return jsonify({"order": saved, "user": public_user(updated_user)})

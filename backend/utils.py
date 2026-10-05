@@ -1,7 +1,7 @@
 from functools import wraps
 from flask import request, jsonify
-import jwt
 from config import Config
+from supabase_client import auth_client
 
 
 def auth_required(f):
@@ -12,8 +12,10 @@ def auth_required(f):
         if not token:
             return jsonify({"error": "Not authenticated"}), 401
         try:
-            payload = jwt.decode(token, Config.JWT_SECRET, algorithms=["HS256"])
-            request.user_id = payload["id"]
+            response = auth_client.auth.get_user(token)
+            if not response.user:
+                raise ValueError("Missing user")
+            request.user_id = str(response.user.id)
         except Exception:
             return jsonify({"error": "Invalid token"}), 401
         return f(*args, **kwargs)
