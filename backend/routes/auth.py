@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 import random
 import string
 
-from supabase_client import auth_client, db_client
+from supabase_client import SUPABASE_SERVICE_ROLE_KEY, auth_client, db_client
 
 auth_bp = Blueprint("auth", __name__)
 
@@ -25,6 +25,13 @@ def gen_invite_code():
     return "BZR-" + "".join(random.choices(string.ascii_uppercase + string.digits, k=6))
 
 
+def confirm_user(user_id):
+    if not SUPABASE_SERVICE_ROLE_KEY:
+        return False
+    auth_client.auth.admin.update_user_by_id(user_id, {"email_confirm": True})
+    return True
+
+
 @auth_bp.route("/register", methods=["POST"])
 def register():
     data = request.get_json() or {}
@@ -41,6 +48,9 @@ def register():
         if not response.user:
             return jsonify({"error": "Unable to create account"}), 400
 
+        if not response.session and confirm_user(response.user.id):
+            response = auth_client.auth.sign_in_with_password({"email": email, "password": password})
+
         profile = {
             "id": response.user.id,
             "name": name,
@@ -52,7 +62,7 @@ def register():
         saved = db_client.table("profiles").select("*").eq("id", response.user.id).single().execute().data
         if not response.session:
             return jsonify({
-                "message": "Check your email to confirm your account, then log in.",
+            "message": "Email confirmation is not configured on this server.",
                 "requiresConfirmation": True,
                 "user": public_user(saved),
             }), 201
@@ -75,5 +85,16 @@ def login():
         return jsonify({"token": response.session.access_token, "user": public_user(profile)})
     except Exception as error:
         if "confirm" in str(error).lower() or "not confirmed" in str(error).lower():
-            return jsonify({"error": "Please confirm your email before signing in."}), 403
+            if SUPABASE_SERVICE_ROLE_KEY:
+                try:
+                    users = auth_client.auth.admin.list_users()
+                    user_list = getattr(users, "users", users)
+                    user = next((item for item in user_list if item.email == email), None)
+                    if user and confirm_user(user.id):
+                        response = auth_client.auth.sign_in_with_password({"email": email, "password": password})
+                        profile = db_client.table("profiles").select("*").eq("id", response.user.id).single().execute().data
+                        return jsonify({"token": response.session.access_token, "user": public_user(profile)})
+                except Exception:
+                    pass
+            return jsonify({"error": "Email confirmation is not configured on this server."}), 403
         return jsonify({"error": "Invalid credentials"}), 400
