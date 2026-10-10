@@ -2,7 +2,14 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-load_dotenv(Path(__file__).with_name(".env"))
+for env_path in [
+    Path(__file__).with_name(".env"),
+    Path(__file__).parent.parent / ".env",
+    Path("/etc/secrets/.env"),
+]:
+    if env_path.exists():
+        load_dotenv(env_path)
+
 
 class Config:
     SUPABASE_URL = os.getenv("SUPABASE_URL", "")

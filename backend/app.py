@@ -34,13 +34,25 @@ app.register_blueprint(invite_bp, url_prefix="/api/invite")
 app.register_blueprint(admin_bp, url_prefix="/api/admin")
 
 
+# Run settings check safely on startup
+try:
+    ensure_settings()
+except Exception as _e:
+    pass
+
+
 @app.route("/api/settings", methods=["GET"])
 def public_settings():
-    setting = db_client.table("settings").select("*").eq("id", 1).single().execute().data
+    try:
+        res = db_client.table("settings").select("*").eq("id", 1).execute()
+        setting = res.data[0] if (res.data and len(res.data) > 0) else {}
+    except Exception:
+        setting = {}
+
     return jsonify({
-        "pixKey": setting["pix_key"],
-        "pixName": setting["pix_name"],
-        "invitePrefix": setting["invite_prefix"],
+        "pixKey": setting.get("pix_key", "bazaro@pix.com"),
+        "pixName": setting.get("pix_name", "Bazaro Store"),
+        "invitePrefix": setting.get("invite_prefix", "BZR"),
     })
 
 

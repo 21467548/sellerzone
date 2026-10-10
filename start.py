@@ -13,6 +13,6 @@ else:
 
     os.environ["GUNICORN_CMD_ARGS"] = (
         f"--chdir backend --bind 0.0.0.0:{port} "
-        "--workers 2 --timeout 120"
+        "--workers 2 --timeout 120 app:app"
     )
     run()
