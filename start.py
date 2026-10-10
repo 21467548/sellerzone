@@ -9,10 +9,17 @@ if os.name == "nt":
 
     app.run(host="0.0.0.0", port=port, debug=True)
 else:
+    sys.argv = [
+        "gunicorn",
+        "--chdir",
+        "backend",
+        "--bind",
+        f"0.0.0.0:{port}",
+        "--workers",
+        "2",
+        "--timeout",
+        "120",
+        "app:app",
+    ]
     from gunicorn.app.wsgiapp import run
-
-    os.environ["GUNICORN_CMD_ARGS"] = (
-        f"--chdir backend --bind 0.0.0.0:{port} "
-        "--workers 2 --timeout 120 app:app"
-    )
     run()
